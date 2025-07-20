@@ -25,7 +25,6 @@ The motivation behind this simulator was to learn more about GPU programming as 
 ## Tech Stack
 - Language: C++17
 - GPU: NVIDIA
-- Build: CMake
 
 
 
