@@ -1,0 +1,26 @@
+#ifndef QUANTUM_STATE_H
+#define QUANTUM_STATE_H
+
+#include <cuda_runtime.h> 
+#include <cuComplex.h> 
+
+// struct to hold the quantum state (amplitudes)
+class QuantumState 
+{
+public: 
+    cuDoubleComplex* amplitudes; 
+    size_t num_qubits;           
+    size_t num_amplitudes;       
+
+    /**
+     * constructor for quantum state allocates space on gpu for a list of amplitudes related to the number of qubits 
+     */
+    QuantumState(int n_qubits); 
+
+    // destructor 
+    ~QuantumState();
+    
+    void copyToHost(cuDoubleComplex *h_amplitudes) const;   
+};
+
+#endif
