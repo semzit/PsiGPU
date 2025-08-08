@@ -1,6 +1,8 @@
 #ifndef CIRCUITEXECUTER_H
 #define CIRCUITEXECUTER_H
 #include <cuComplex.h>
+#include "q_state.h"
+#include "circuit.h"
 
 extern __global__ void cnot_kernel(cuDoubleComplex* state_vector, int num_qubits, int target_qubit, int control_qubit); 
 extern __global__ void swap_kernel(cuDoubleComplex* state_vector, int num_qubits, int target_qubit, int control_qubit); 

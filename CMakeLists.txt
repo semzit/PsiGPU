@@ -1,15 +1,12 @@
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
-# Must set before project() so CUDA detection doesn't fail
-set(CMAKE_CUDA_ARCHITECTURES 89)
-
 project(PsiGPU LANGUAGES CXX CUDA)
 
 # Add source files
 add_executable(PsiGPU
     src/main.cpp
     src/circuit/circuit.cpp
-    src/circuit/circuitExecuter.cpp
+    src/circuit/circuit_executer.cpp
     src/gates/multi_qubit_gates/cnot_kernel.cu
     src/gates/multi_qubit_gates/swap_kernel.cu
     src/gates/multi_qubit_gates/toffoli_kernel.cu
@@ -25,12 +22,15 @@ add_executable(PsiGPU
     src/measurements/calculate_probabilities_kernel.cu
     src/measurements/collapse_and_normalize_kernel.cu
     src/measurements/measure.cpp
-    src/circuits.cpp
+)
+
+target_include_directories(PsiGPU PRIVATE
+    ${CMAKE_SOURCE_DIR}/include
 )
 
 set_target_properties(PsiGPU PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED YES
-    CUDA_STANDARD 13
+    CUDA_STANDARD 11
     CUDA_STANDARD_REQUIRED YES
 )

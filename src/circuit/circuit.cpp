@@ -1,15 +1,14 @@
 // In src/circuit/circuit.cpp
-#include <circuit.h>
+#include "circuit.h"
 #include <iostream>
-#include <gates.h>
+#include "gates.h"
 
-// Constructor definition
-Circuit::Circuit(int n_qubits) : qubit_count(n_qubits) {
-    if (n_qubits == 0) {
-        throw std::runtime_error("Circuit must have at least one qubit.");
-    }
-    // Initialize an empty gate list
-    gates.reserve(100); 
+Circuit::Circuit(int num_qubits)
+    :  qubit_count(num_qubits), gates()
+{
+}
+
+Circuit::~Circuit(){
 }
 
 void Circuit::addHadamard(int target_qubit) {
