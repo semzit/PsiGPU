@@ -1,6 +1,6 @@
 #include <cuComplex.h>
 
-// Go through every amplitude and calculate probability
+// Go through every amplitude and calculate probability 
 __global__ void calculate_probability(cuDoubleComplex* state_vector, double* probabilities, int num_qubits){
     int i = blockIdx.x*blockDim.x + threadIdx.x;
 
