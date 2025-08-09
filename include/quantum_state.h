@@ -21,6 +21,7 @@ public:
     ~QuantumState();
     
     void copyToHost(cuDoubleComplex *h_amplitudes) const;   
+    void copyToDevice(cuDoubleComplex *h_amplitudes) const; 
 };
 
 #endif

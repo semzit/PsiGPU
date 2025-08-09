@@ -20,7 +20,9 @@ The motivation behind this simulator was to learn more about GPU programming as 
 - [] Gate application via custom CUDA kernels
 - [] Simple CLI for hardcoded/test circuits
 
+## Resources 
 
+CUDA/GPU programming - https://www.cs.emory.edu/~cheung/Courses/355/Syllabus/94-CUDA/SLIDES/
 
 ## Tech Stack
 - Language: C++17

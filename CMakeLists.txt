@@ -6,7 +6,7 @@ project(PsiGPU LANGUAGES CXX CUDA)
 add_executable(PsiGPU
     src/main.cpp
     src/circuit/circuit.cpp
-    src/circuit/circuit_executer.cpp
+    src/circuit/circuit_executer.cu
     src/gates/multi_qubit_gates/cnot_kernel.cu
     src/gates/multi_qubit_gates/swap_kernel.cu
     src/gates/multi_qubit_gates/toffoli_kernel.cu
@@ -19,9 +19,8 @@ add_executable(PsiGPU
     src/gates/single_qubit_gates/rotation_gates/y_rotation_kernel.cu
     src/gates/single_qubit_gates/rotation_gates/z_rotation_kernel.cu
     src/gates/single_qubit_gates/hadamard_kernel.cu
-    src/measurements/calculate_probabilities_kernel.cu
-    src/measurements/collapse_and_normalize_kernel.cu
-    src/measurements/measure.cpp
+    src/measurements/measure.cu
+    src/q_state/quantum_state.cpp    
 )
 
 target_include_directories(PsiGPU PRIVATE

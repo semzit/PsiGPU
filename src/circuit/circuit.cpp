@@ -118,23 +118,18 @@ void Circuit::addSWAP(int target_qubit, int control) {
 
     gates.push_back(SWAP_gate);  
 }
-void Circuit::addToffoli(int target_qubit, int control) {
+void Circuit::addToffoli(int target_qubit, int control, int control_two) {
     if (target_qubit < 0 || target_qubit >= qubit_count){
         throw std::out_of_range("Atempted to add gate to qubit " + std::to_string(target_qubit) +  " but there are only " + std::to_string(qubit_count)); 
     }
 
-    Gate Toffoli_gate(GateType::Toffoli, target_qubit, control); 
+    Gate Toffoli_gate(GateType::Toffoli, target_qubit, control, control_two); 
 
     gates.push_back(Toffoli_gate); 
 }
 
 
 void Circuit::printCircuitCLI() const {
-    if (qubit_count == 0) {
-        std::cout << "Empty circuit." << std::endl;
-        return;
-    }
-
     // Determine the maximum width needed for qubit labels (e.g., "Q0", "Q10")
     int qubit_label_width = 2 + std::to_string(qubit_count - 1).length();
 

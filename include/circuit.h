@@ -26,7 +26,7 @@ public:
     // multi qubit gates
     void addCNOT(int target_qubit, int control); 
     void addSWAP(int target_qubit, int control); 
-    void addToffoli(int target_qubit, int control); 
+    void addToffoli(int target_qubit, int control, int control_two); 
 };
 
 #endif

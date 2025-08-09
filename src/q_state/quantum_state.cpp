@@ -11,12 +11,12 @@ QuantumState::QuantumState(int n_qubits) : num_qubits(n_qubits) {
     }
     h_amplitudes[0] = make_cuDoubleComplex(1.0, 0.0); // set first pair of ampitudes to  1<1|  0<0| 
 
-    cudaMemcpy(amplitudes, h_amplitudes, num_amplitudes * sizeof(cuDoubleComplex), cudaMemcpyHostToDevice); // copy amplitudes to gpu
+    copyToDevice(h_amplitudes); 
 
     free(h_amplitudes); // free on cpu
 }
 
-// destructor 
+// Destructor 
 QuantumState::~QuantumState() {
     if (amplitudes) {
         cudaFree(amplitudes);
@@ -28,5 +28,12 @@ QuantumState::~QuantumState() {
  * Method to get data on cpu neccessary for measurment 
  */
 void QuantumState::copyToHost(cuDoubleComplex  *h_amplitudes) const {
-    (cudaMemcpy(h_amplitudes, amplitudes, num_amplitudes * sizeof(cuDoubleComplex), cudaMemcpyDeviceToHost));
+    cudaMemcpy(h_amplitudes, amplitudes, num_amplitudes * sizeof(cuDoubleComplex), cudaMemcpyDeviceToHost);
+}
+
+/**
+ * Method to get data onto device 
+ */
+void QuantumState::copyToDevice(cuDoubleComplex  *h_amplitudes) const{
+    cudaMemcpy(amplitudes, h_amplitudes, num_amplitudes * sizeof(cuDoubleComplex), cudaMemcpyHostToDevice); // copy amplitudes to gpu
 }
