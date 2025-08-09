@@ -32,7 +32,7 @@ void CircuitExecuter::execute(const Circuit& circuit, QuantumState& state){
     for (Gate gate: circuit.gates){
         switch (gate.type){
             case GateType::Hadamard:{
-                hadamard_kernel<<<1, 2>>>(state.amplitudes, circuit.qubit_count, gate.target_qubit); 
+                hadamard_kernel<<<num_blocks, num_threads>>>(state.amplitudes, circuit.qubit_count, gate.target_qubit); 
                 break;
             }
             case GateType::PauliX:{
@@ -91,8 +91,9 @@ void CircuitExecuter::execute(const Circuit& circuit, QuantumState& state){
             std::cerr << "CUDA error after " << gate.toString() << " kernel launch: " << cudaGetErrorString(err) << std::endl;
         }
     }
+    measureAndCollapse(state);
 }
 
 void CircuitExecuter::measureAndCollapse(QuantumState& state){
-
+    
 }

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <sstream>
 #include "quantum_state.h"
 #include "circuit.h"
 #include "circuit_executer.h"
@@ -13,6 +14,13 @@ void printHelp(){
     std::cout << "  addGate <gateName> <target_qubit> [<control_qubit>] [<second_control_qubit>]\n";
     std::cout << "  print - prints a view of current circtui\n";
     std::cout << "  run - executes current circuit and returns measurements\n";
+    std::cout << "  gates - returns a list of implemented gates\n";
+    std::cout << "  quit - stop program\n";
+}
+
+
+void printGates(){
+    std::cout << "\nnot \nPauliY \nPauliZ \nPhaseS \nPhaseT \nRotationX \nRotationY \nRotationZ \nHadamard \nCNOT \nSWAP \nToffoli"; 
 }
 
 std::string cleanString(std::string& s) {
@@ -32,6 +40,7 @@ int main(){
     int qubit_count = -1;
 
     std::cout << "Welcome to PsiGPU!" << "\n";
+
     while (qubit_count > 20 || qubit_count< 1){
         std::cout << "Enter number of qubits you want: ";
         std::cin >> qubit_count;  
@@ -48,20 +57,66 @@ int main(){
 
     while (true){
         std::string input ;
-        std::cout << "Command: ";  
-        std::cin >> input ; 
-        input = cleanString(input);
-        
+        std::getline(std::cin, input); // read the whole line
+        std::cout << "Command: "; 
+        std::stringstream ss(input);
+        std::string command;
+        ss >> command; 
+        command = cleanString(command); 
+
+        //std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
         if(input == "help"){
             printHelp(); 
         }else if (input == "print"){
             circuit.printCircuitCLI(); 
         }else if (input == "run"){
             executer.execute(circuit, q_state); 
-            
         }else if (input == "quit"){
             return 0; 
+        }else if (command == "gates"){
+            printGates(); 
+        }else if (command == "add") { 
+            std::string gateNameStr;
+            int target_qubit = -1 ; 
+            int control_qubit = -1; 
+            int second_control_qubit = -1;
+            
+            ss >> gateNameStr; // Read gate name and target qubit
+            ss >> target_qubit; 
+
+            if (gateNameStr == "hadamard"){
+                circuit.addHadamard(target_qubit); 
+            }else if (gateNameStr == "not"){
+                circuit.addPualiX(target_qubit); 
+            }else if (gateNameStr == "pualiy"){
+                circuit.addPauliY(target_qubit); 
+            }else if (gateNameStr == "pualiz"){
+                circuit.addPauliZ(target_qubit); 
+            }else if (gateNameStr == "sphase"){
+                circuit.addPhaseS(target_qubit); 
+            }else if (gateNameStr == "tphase"){
+                circuit.addPhaseT(target_qubit); 
+            }else if (gateNameStr == "rotationx"){
+                circuit.addRotationX(target_qubit);
+            }else if (gateNameStr == "rotationy"){
+                circuit.addRotationY(target_qubit);
+            }else if (gateNameStr == "rotationz"){
+                circuit.addRotationZ(target_qubit);
+            }else if (gateNameStr == "cnot"){
+                ss >> control_qubit; 
+                circuit.addCNOT(target_qubit, control_qubit); 
+            }else if (gateNameStr == "swap"){
+                ss >> control_qubit; 
+                circuit.addSWAP(target_qubit, control_qubit); 
+            }else if (gateNameStr == "toffoli"){
+                ss >> control_qubit; 
+                ss >> second_control_qubit; 
+                circuit.addToffoli(target_qubit, control_qubit, second_control_qubit); 
+            }else {
+                std::cout<< "invalid command\n";  
+            }
+            
         }
     }
-     
 }

@@ -26,9 +26,9 @@ void Circuit::addPualiX(int target_qubit) {
         throw std::out_of_range("Atempted to add gate to qubit " + std::to_string(target_qubit) +  " but there are only " + std::to_string(qubit_count)); 
     }
 
-    Gate hadamard_gate(GateType::Hadamard, target_qubit); 
+    Gate puali_x_gate(GateType::PauliX, target_qubit); 
 
-    gates.push_back(hadamard_gate); 
+    gates.push_back(puali_x_gate); 
 }
 
 void Circuit::addPauliY(int target_qubit) {
@@ -36,9 +36,9 @@ void Circuit::addPauliY(int target_qubit) {
         throw std::out_of_range("Atempted to add gate to qubit " + std::to_string(target_qubit) +  " but there are only " + std::to_string(qubit_count)); 
     }
 
-    Gate hadamard_gate(GateType::Hadamard, target_qubit); 
+    Gate puali_y_gate(GateType::PauliY, target_qubit); 
 
-    gates.push_back(hadamard_gate); 
+    gates.push_back(puali_y_gate); 
 }
 
 void Circuit::addPauliZ(int target_qubit) {
@@ -46,9 +46,9 @@ void Circuit::addPauliZ(int target_qubit) {
         throw std::out_of_range("Atempted to add gate to qubit " + std::to_string(target_qubit) +  " but there are only " + std::to_string(qubit_count)); 
     }
 
-    Gate hadamard_gate(GateType::Hadamard, target_qubit); 
+    Gate puali_z_gate(GateType::PauliZ, target_qubit); 
 
-    gates.push_back(hadamard_gate); 
+    gates.push_back(puali_z_gate); 
 }
 
 void Circuit::addPhaseS(int target_qubit) {
@@ -56,9 +56,9 @@ void Circuit::addPhaseS(int target_qubit) {
         throw std::out_of_range("Atempted to add gate to qubit " + std::to_string(target_qubit) +  " but there are only " + std::to_string(qubit_count)); 
     }
 
-    Gate hadamard_gate(GateType::Hadamard, target_qubit); 
+    Gate phase_s_gate(GateType::PhaseS, target_qubit); 
 
-    gates.push_back(hadamard_gate); 
+    gates.push_back(phase_s_gate); 
 }
 
 void Circuit::addPhaseT(int target_qubit) {
@@ -66,9 +66,9 @@ void Circuit::addPhaseT(int target_qubit) {
         throw std::out_of_range("Atempted to add gate to qubit " + std::to_string(target_qubit) +  " but there are only " + std::to_string(qubit_count)); 
     }
 
-    Gate hadamard_gate(GateType::Hadamard, target_qubit); 
+    Gate phase_t_gate(GateType::PhaseT, target_qubit); 
 
-    gates.push_back(hadamard_gate); 
+    gates.push_back(phase_t_gate); 
 }
 
 void Circuit::addRotationX(int target_qubit) {
@@ -76,9 +76,9 @@ void Circuit::addRotationX(int target_qubit) {
         throw std::out_of_range("Atempted to add gate to qubit " + std::to_string(target_qubit) +  " but there are only " + std::to_string(qubit_count)); 
     }
 
-    Gate hadamard_gate(GateType::Hadamard, target_qubit); 
+    Gate rotation_x(GateType::RotationX, target_qubit); 
 
-    gates.push_back(hadamard_gate); 
+    gates.push_back(rotation_x); 
 }
 
 void Circuit::addRotationY(int target_qubit) {
@@ -86,9 +86,9 @@ void Circuit::addRotationY(int target_qubit) {
         throw std::out_of_range("Atempted to add gate to qubit " + std::to_string(target_qubit) +  " but there are only " + std::to_string(qubit_count)); 
     }
 
-    Gate hadamard_gate(GateType::Hadamard, target_qubit); 
+    Gate rotation_y(GateType::RotationY, target_qubit); 
 
-    gates.push_back(hadamard_gate); 
+    gates.push_back(rotation_y); 
 }
 
 void Circuit::addRotationZ(int target_qubit) {
@@ -96,9 +96,9 @@ void Circuit::addRotationZ(int target_qubit) {
         throw std::out_of_range("Atempted to add gate to qubit " + std::to_string(target_qubit) +  " but there are only " + std::to_string(qubit_count)); 
     }
 
-    Gate hadamard_gate(GateType::Hadamard, target_qubit); 
+    Gate rotation_z(GateType::RotationZ, target_qubit); 
 
-    gates.push_back(hadamard_gate); 
+    gates.push_back(rotation_z); 
 }
 void Circuit::addCNOT(int target_qubit, int control) {
     if (target_qubit < 0 || target_qubit >= qubit_count){
@@ -130,12 +130,9 @@ void Circuit::addToffoli(int target_qubit, int control, int control_two) {
 
 
 void Circuit::printCircuitCLI() const {
-    // Determine the maximum width needed for qubit labels (e.g., "Q0", "Q10")
     int qubit_label_width = 2 + std::to_string(qubit_count - 1).length();
 
-    // Create a 2D grid to represent the circuit visually
-    // Each row is a qubit, each column is a "time step" for a gate
-    // Initialize with wires '---'
+  
     std::vector<std::string> circuit_grid(qubit_count, std::string(gates.size() * 4 + 5, '-')); // 4 chars per gate + some initial/final wire
     
     // Adjust initial wire segments
@@ -204,6 +201,27 @@ void Circuit::printCircuitCLI() const {
                 for (int q = start_q + 1; q < end_q; ++q) {
                     circuit_grid[q][gate_start_pos + 1] = '|';
                 }
+                break;
+            }
+            case GateType::Toffoli: {
+                int q1 = gate.control_qubit; 
+                int q2 = gate.target_qubit;
+                int q3 = gate.control_qubit_two; 
+
+                // Draw vertical line connecting them
+                int start_q = std::min(q1, q2);
+                int end_q = std::max(q1, q2);
+                for (int q = start_q + 1; q < end_q; ++q) {
+                    circuit_grid[q][gate_start_pos + 1] = '|';
+                }
+
+                // Draw vertical line connecting them
+                start_q = std::min(q2, q3);
+                end_q = std::max(q2, q3);
+                for (int q = start_q + 1; q < end_q; ++q) {
+                    circuit_grid[q][gate_start_pos + 1] = '|';
+                }
+
                 break;
             }
             // Add other multi-qubit gates like Toffoli here

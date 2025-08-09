@@ -17,7 +17,7 @@ make
 ### 2. Example usage 
 
 ## State Vector 
-The state vector is represented as an array of  cuDoubleComplex which allows the amplitude to represent both its real and imaginary part 
+The state vector is represented as an array of  cuDoubleComplex which allows the amplitude to represent both its real and imaginary parts
 
 Amplitude: $a+bi$  
 
