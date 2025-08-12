@@ -1,10 +1,7 @@
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
-
 project(PsiGPU LANGUAGES CXX CUDA)
 
-# Add source files
-add_executable(PsiGPU
-    src/main.cpp
+add_library(PsiGPULib
     src/circuit/circuit.cpp
     src/circuit/circuit_executer.cu
     src/gates/multi_qubit_gates/cnot_kernel.cu
@@ -20,16 +17,26 @@ add_executable(PsiGPU
     src/gates/single_qubit_gates/rotation_gates/z_rotation_kernel.cu
     src/gates/single_qubit_gates/hadamard_kernel.cu
     src/measurements/measure.cu
-    src/q_state/quantum_state.cpp    
+    src/q_state/quantum_state.cpp
 )
 
-target_include_directories(PsiGPU PRIVATE
-    ${CMAKE_SOURCE_DIR}/include
-)
-
-set_target_properties(PsiGPU PROPERTIES
+set_target_properties(PsiGPULib PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED YES
     CUDA_STANDARD 11
     CUDA_STANDARD_REQUIRED YES
+    CUDA_SEPARABLE_COMPILATION ON
 )
+
+target_include_directories(PsiGPULib PUBLIC ${CMAKE_SOURCE_DIR}/include)
+
+add_executable(PsiGPU
+    src/main.cpp
+)
+
+target_link_libraries(PsiGPU PRIVATE PsiGPULib)
+
+
+# Enable testing and add test directory
+enable_testing()
+add_subdirectory(test)

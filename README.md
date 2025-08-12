@@ -32,6 +32,8 @@ $(a+bi)\ |00> + (c+di)\ |01> + (e+fi)\ |10> + (g+hi)\ |11>$
 -
 -
 -
+## Kernel Fusion 
+Because an iterative approach when applying qauntum gates leads to incorrect results,  gates applied to non disjoint qubits must be fused together
 ## Circuit gates
 ### Kernel example
 ```cpp
@@ -82,16 +84,16 @@ Because the amplitude is given by the $a+bi$ the maginitude of probabilty for th
 CUDA/GPU programming: 
 - https://www.cs.emory.edu/~cheung/Courses/355/Syllabus/94-CUDA/SLIDES/
 - https://www.learncpp.com/
+- https://google.github.io/googletest/primer.html 
 
 Quantum Computing: 
 - https://quantum.country/
 - https://youtu.be/tsbCSkvHhMo?si=DjhDKAKPLa0PlkgT
 - https://youtu.be/RQWpF2Gb-gU?si=qExsQVy-IvSGIXRE
 ## Tech Stack
-- Language: C++17
+- Language: C++17, CUDA 11
+- Testing: GoogleTest
 - GPU: NVIDIA 4060
-
-
 
 ##  License
 MIT 

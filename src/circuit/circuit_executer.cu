@@ -1,12 +1,15 @@
-#include "circuit_executer.h"
-#include "gates.h"
-#include "quantum_state.h"
-#include "circuit.h"
+#include "../../include/circuit_executer.h"
+#include "../../include/gates.h"
+#include "../../include/quantum_state.h"
+#include "../../include/circuit.h"
 #include <cmath>
 #include <stdexcept>
 #include <iostream>
 
 const int THREADS_PER_BLOCK = 256; 
+
+
+extern void measureAndCollapse(QuantumState& state); 
 
 /**
  * calculate the kernel launch dim for a certain gate (num_blocks, THREADS_PER_BLOCK)
@@ -21,7 +24,7 @@ dim3 CircuitExecuter::calculateLaunchDims(int total_elements)const{
 }
 
 /**
- * should go through the circuit and apply the gates to to state
+ * Iterates through the circuit and apply the gates to to state
  */
 void CircuitExecuter::execute(const Circuit& circuit, QuantumState& state){
     dim3 launch_dims = calculateLaunchDims(state.num_amplitudes); 
@@ -94,6 +97,3 @@ void CircuitExecuter::execute(const Circuit& circuit, QuantumState& state){
     measureAndCollapse(state);
 }
 
-void CircuitExecuter::measureAndCollapse(QuantumState& state){
-    
-}

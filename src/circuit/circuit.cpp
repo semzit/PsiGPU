@@ -1,7 +1,7 @@
 // In src/circuit/circuit.cpp
-#include "circuit.h"
+#include "../../include/circuit.h"
 #include <iostream>
-#include "gates.h"
+#include "../../include/gates.h"
 
 Circuit::Circuit(int num_qubits)
     :  qubit_count(num_qubits), gates()

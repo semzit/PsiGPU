@@ -3,6 +3,7 @@
 
 #include <cuda_runtime.h> 
 #include <cuComplex.h> 
+#include <vector>
 
 // struct to hold the quantum state (amplitudes)
 class QuantumState 
@@ -22,6 +23,6 @@ public:
     
     void copyToHost(cuDoubleComplex *h_amplitudes) const;   
     void copyToDevice(cuDoubleComplex *h_amplitudes) const; 
-};
-
+    std::vector<cuDoubleComplex> getStateVector() const; 
+}; 
 #endif

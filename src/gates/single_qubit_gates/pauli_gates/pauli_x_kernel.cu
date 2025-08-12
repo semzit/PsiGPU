@@ -1,4 +1,5 @@
-#include <quantum_state.h>
+#include "circuit_executer.h"
+#include <cuComplex.h>
 
 __global__ void pauli_x_kernel(cuDoubleComplex* state_vector, int num_qubits, int target_qubit) {
     size_t tid = blockIdx.x * blockDim.x + threadIdx.x; // Global thread ID

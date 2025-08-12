@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-#include "quantum_state.h"
-#include "circuit.h"
-#include "circuit_executer.h"
+#include "../include/quantum_state.h"
+#include "../include/circuit.h"
+#include "../include/circuit_executer.h"
 #include <iostream>
 #include <cctype>
 #include <string>
@@ -72,6 +72,11 @@ int main(){
             circuit.printCircuitCLI(); 
         }else if (input == "run"){
             executer.execute(circuit, q_state); 
+            auto vec = q_state.getStateVector();
+            for (const auto& amp : vec) {
+                std::cout << "(" << amp.x << ", " << amp.y << ") ";
+            }
+            std::cout << std::endl;
         }else if (input == "quit"){
             return 0; 
         }else if (command == "gates"){
