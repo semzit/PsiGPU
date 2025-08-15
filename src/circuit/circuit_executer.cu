@@ -34,59 +34,7 @@ void CircuitExecuter::execute(const Circuit& circuit, QuantumState& state){
 
     for (Gate gate: circuit.gates){
         switch (gate.type){
-            case GateType::Hadamard:{
-                hadamard_kernel<<<num_blocks, num_threads>>>(state.amplitudes, circuit.qubit_count, gate.target_qubit); 
-                break;
-            }
-            case GateType::PauliX:{
-                pauli_x_kernel<<<num_blocks, num_threads>>>(state.amplitudes, circuit.qubit_count, gate.target_qubit); 
-                break;
-            }
-            case GateType::PauliY:{
-                pauli_y_kernel<<<num_blocks, num_threads>>>(state.amplitudes, circuit.qubit_count, gate.target_qubit); 
-                break;
-            }
-            case GateType::PauliZ: {
-                pauli_z_kernel<<<num_blocks, num_threads>>>(state.amplitudes, circuit.qubit_count, gate.target_qubit); 
-                break;
-            }
-            case GateType::PhaseS: {
-                s_kernel<<<num_blocks, num_threads>>>(state.amplitudes, circuit.qubit_count, gate.target_qubit); 
-                break;
-            }
-            case GateType::PhaseT: {
-                t_kernel<<<num_blocks, num_threads>>>(state.amplitudes, circuit.qubit_count, gate.target_qubit); 
-                break;
-            }
-            case GateType::RotationX:{
-                x_rotation_kernel<<<num_blocks, num_threads>>>(state.amplitudes, circuit.qubit_count, gate.target_qubit); 
-                break;
-            }
-            case GateType::RotationY:{
-                y_rotation_kernel<<<num_blocks, num_threads>>>(state.amplitudes, circuit.qubit_count, gate.target_qubit); 
-                break;
-            }
-            case GateType::RotationZ:{
-                z_rotation_kernel<<<num_blocks, num_threads>>>(state.amplitudes, circuit.qubit_count, gate.target_qubit); 
-                break;
-            }
-            case GateType::CNOT:{
-                cnot_kernel<<<num_blocks, num_threads>>>(state.amplitudes, circuit.qubit_count, gate.target_qubit, gate.control_qubit); 
-                break;
-            }
-            case GateType::SWAP:{
-                swap_kernel<<<num_blocks, num_threads>>>(state.amplitudes, circuit.qubit_count, gate.target_qubit, gate.control_qubit); 
-                break;
-            }
-            case GateType::Toffoli: {
-               toffoli_kernel<<<num_blocks, num_threads>>>(state.amplitudes, circuit.qubit_count, gate.target_qubit, gate.control_qubit, gate.control_qubit_two); 
-               break;
-            }
-            default:{
-                std::cerr << "Error: Unknown gate type encountered.\n";
-                
-                throw std::runtime_error("Unsupported gate type.");
-            }
+            
         }
         cudaDeviceSynchronize(); 
         cudaError_t err = cudaGetLastError();
@@ -95,5 +43,58 @@ void CircuitExecuter::execute(const Circuit& circuit, QuantumState& state){
         }
     }
     measureAndCollapse(state);
+}
+
+void CircuitExecuter::buildFusedMatrix(const Circuit& circuit){
+    auto fused = std::vector<cuDoubleComplex>{
+        make_cuDoubleComplex(1,0), make_cuDoubleComplex(0,0), 
+        make_cuDoubleComplex(0,0), make_cuDoubleComplex(1,0)
+    }; 
+    int fused_size = 2; 
+
+    for (size_t i = 0; i< circuit.qubit_count; ++i){
+        Gate* gateForQubit = nullptr;
+
+        for (size_t j = 0; j < circuit.gates.size(); ++j) {
+            for (size_t t = 0; t < circuit.gates[g].targets.size(); ++t) {
+                if (circuit.gates[g].targets[t] == q) {
+                    gateForQubit = &circuit.gates[g];
+                    break;
+                }
+            }
+            if (gateForQubit != nullptr) break;
+        }
+
+        if (gateForQubit != nullptr) {
+            int gate_dim = (int)std::sqrt(gateForQubit->matrix.size());
+            fused = tensorProduct(fused, fused_size, gateForQubit->matrix, gate_dim);
+            fused_size *= gate_dim;
+        } else {
+            std::vector<cuDoubleComplex> I = {
+                make_cuDoubleComplex(1, 0), make_cuDoubleComplex(0, 0),
+                make_cuDoubleComplex(0, 0), make_cuDoubleComplex(1, 0)
+            };
+            fused = tensorProduct(fused, fused_size, I, 2);
+            fused_size *= 2;
+        }
+    }
+    timeSteps.push_back(fused); 
+}
+
+__global__ void applyFusedMatrix(cuDoubleComplex* stateVec,
+                                 const cuDoubleComplex* U,
+                                 int dim) {
+    int row = blockIdx.x * blockDim.x + threadIdx.x;
+    if (row >= dim) return;
+
+    extern __shared__ cuDoubleComplex temp[];
+    temp[row] = stateVec[row];
+    __syncthreads();
+
+    cuDoubleComplex sum = make_cuDoubleComplex(0, 0);
+    for (int col = 0; col < dim; ++col) {
+        sum = cuCadd(sum, cuCmul(U[row * dim + col], temp[col]));
+    }
+    stateVec[row] = sum;
 }
 

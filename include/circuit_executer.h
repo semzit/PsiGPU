@@ -23,6 +23,7 @@ class CircuitExecuter{
     public: 
         CircuitExecuter() = default; 
         void execute(const Circuit& circuit, QuantumState& state); 
+        void buildFusedMatrix(const Circuit& circuit) ; 
     private: 
         // helper for determining the proper grid and block launch dimensions  
         dim3 calculateLaunchDims(int total_elements) const; 

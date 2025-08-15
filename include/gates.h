@@ -25,6 +25,7 @@ struct Gate{
     int target_qubit; 
     int control_qubit;
     int control_qubit_two; 
+    std::vector<cuDoubleComplex> matrix; 
     
     Gate(GateType t, int target)
         : type(t), target_qubit(target), control_qubit(-1), control_qubit_two(-1){}
