@@ -47,7 +47,7 @@ $(a+bi)\ |00> + (c+di)\ |01> + (e+fi)\ |10> + (g+hi)\ |11>$
 ## Kernel Fusion 
 Because an iterative approach when applying quantum gates and launching individual gpu kernels every time is expensive this project works by putting them all together through kernel fusion. 
 
-- If gates act on overlapping qubits then you muliply the matrices before applying:$\ U_{fused} = U_B \ \cdot \ U_A$
+- If gates act on overlapping qubits then you muliply the matrices before applying: $\ U_{fused} = U_B \ \cdot \ U_A$
 - If gates act on different qubits you can take the tensor product between them: $\ U_{fused} = U_A \ \otimes \ U_b$
 ## GPU Kernel
 
