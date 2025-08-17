@@ -1,6 +1,7 @@
 #ifndef GATES_H
 #define GATES_H
 
+#include <math.h>
 #include <vector>   
 #include <string>   
 #include <stdexcept> 
