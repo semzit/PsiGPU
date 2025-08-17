@@ -1,8 +1,15 @@
 # GPU-Based Quantum Circuit Simulator
-
 This project is a high-performance, GPU-accelerated quantum circuit simulator. It models the evolution of multi-qubit quantum states by applying quantum gates directly on the GPU using CUDA.
 
 The motivation behind this simulator was to learn more about GPU programming as well as quantum computing. 
+
+## Table of Contents
+- [Capabilities](https://github.com/SatvikR/LCGE#capabilities)
+- [Build from source](https://github.com/SatvikR/LCGE#build-from-source)
+- [Kernel Fusion](https://github.com/semzit/PsiGPU#kernel-fusion)
+- [Resources](https://github.com/SatvikR/LCGE#dependencies)
+
+
 ## How to use 
 ### 1. build and run
 ``` 
