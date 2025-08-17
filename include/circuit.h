@@ -9,7 +9,7 @@ class Circuit
 
 public:
     int qubit_count; 
-    std::vector<std::vector<cuDoubleComplex>> timeSteps; 
+    std::vector<cuDoubleComplex> completeMatrix; 
     std::vector<Gate> gates;     
     Circuit(int num_qubits);
     ~Circuit();

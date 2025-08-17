@@ -1,13 +1,14 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-#include "../include/quantum_state.h"
-#include "../include/circuit.h"
-#include "../include/circuit_executer.h"
+#include "quantum_state.h"
+#include "circuit.h"
+#include "circuit_executer.h"
 #include <iostream>
 #include <cctype>
 #include <string>
 #include <algorithm>
+
 
 void printHelp(){
     std::cout << "Commands: \n";
@@ -20,7 +21,7 @@ void printHelp(){
 
 
 void printGates(){
-    std::cout << "\nnot \nPauliY \nPauliZ \nPhaseS \nPhaseT \nRotationX \nRotationY \nRotationZ \nHadamard \nCNOT \nSWAP \nToffoli"; 
+    std::cout << "\nnot \nPauliY \nPauliZ \nPhaseS \nPhaseT \nRotationX \nRotationY \nRotationZ \nHadamard \nCNOT - Not implemented \nSWAP - Not implemented \nToffoli - Not implemented"; 
 }
 
 std::string cleanString(std::string& s) {
@@ -93,6 +94,7 @@ int main(){
             if (gateNameStr == "hadamard"){
                 circuit.addHadamard(target_qubit); 
             }else if (gateNameStr == "not"){
+                std::cout << "added not \n"; 
                 circuit.addPualiX(target_qubit); 
             }else if (gateNameStr == "pualiy"){
                 circuit.addPauliY(target_qubit); 
@@ -108,16 +110,16 @@ int main(){
                 circuit.addRotationY(target_qubit);
             }else if (gateNameStr == "rotationz"){
                 circuit.addRotationZ(target_qubit);
-            }else if (gateNameStr == "cnot"){
-                ss >> control_qubit; 
-                circuit.addCNOT(target_qubit, control_qubit); 
-            }else if (gateNameStr == "swap"){
-                ss >> control_qubit; 
-                circuit.addSWAP(target_qubit, control_qubit); 
-            }else if (gateNameStr == "toffoli"){
-                ss >> control_qubit; 
-                ss >> second_control_qubit; 
-                circuit.addToffoli(target_qubit, control_qubit, second_control_qubit); 
+            //}else if (gateNameStr == "cnot"){
+            //    ss >> control_qubit; 
+            //    circuit.addCNOT(target_qubit, control_qubit); 
+            //}else if (gateNameStr == "swap"){
+            //    ss >> control_qubit; 
+            //    circuit.addSWAP(target_qubit, control_qubit); 
+            //}else if (gateNameStr == "toffoli"){
+            //    ss >> control_qubit; 
+            //    ss >> second_control_qubit; 
+            //    circuit.addToffoli(target_qubit, control_qubit, second_control_qubit); 
             }else {
                 std::cout<< "invalid command\n";  
             }
