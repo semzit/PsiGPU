@@ -4,14 +4,24 @@ This project is a high-performance, GPU-accelerated quantum circuit simulator. I
 The motivation behind this simulator was to learn more about GPU programming as well as quantum computing. 
 
 ## Table of Contents
-- [Capabilities](https://github.com/SatvikR/LCGE#capabilities)
-- [Build from source](https://github.com/SatvikR/LCGE#build-from-source)
+- [Capabilities](https://github.com/semzit/PsiGPU#kernel-fusion)
+- [Build from source](https://github.com/semzit/PsiGPU#build-and-run)
+-   [State Vector](https://github.com/semzit/PsiGPU#state-vector)
 - [Kernel Fusion](https://github.com/semzit/PsiGPU#kernel-fusion)
-- [Resources](https://github.com/SatvikR/LCGE#dependencies)
+- [Resources](https://github.com/semzit/PsiGPU#resources)
+## Capabilities
+- [ ] enable multi qubit gates
 
+- [x] kernel fusion 
+
+- [x]  kernels to enable the use of single qubit gates
+
+- [x] circuit visaulizer
+
+- [x]  simple ui
 
 ## How to use 
-### 1. build and run
+### 1. Build and run
 ``` 
 git clone git@github.com:semzit/PsiGPU.  #clone 
 cd PsiGPU
@@ -34,14 +44,11 @@ $\alpha|00> + \beta|01> + \gamma|10> + \delta|11>$
 Or
 
 $(a+bi)\ |00> + (c+di)\ |01> + (e+fi)\ |10> + (g+hi)\ |11>$  
-## Capabilities
-- Simulate a qauntum state 
-- Apply qauntum gates that act on a single qubit
 ## Kernel Fusion 
 Because an iterative approach when applying qauntum gates and launching invidaul gpu kernels every time is expensive this project works by putting them all together through kernel fusion. 
 
-- If gates act on overlapping qubits then you muliply the matrices before applying: $U_{fused} = U_B \ \cdot \ U_A$
-- If gates act on different qubits you can take the tensor product between them: $U_A \ \otimes \ U_b$
+- If gates act on overlapping qubits then you muliply the matrices before applying:$\ U_{fused} = U_B \ \cdot \ U_A$
+- If gates act on different qubits you can take the tensor product between them: $\ U_{fused} = U_A \ \otimes \ U_b$
 ## Circuit gates
 
 ## Probability calulation 
@@ -50,8 +57,7 @@ Because the amplitude is given by the $a+bi$ the maginitude of probabilty for th
 
 ## Long-Term Vision & Goals
 - Lightweight, fast, GPU powered quantum simulator 
-- Alternative to high-performance GPU-based quantum emulation
-- Contribute to quantum-itlassical hybrid simulation methods
+- Alternative for high-performance GPU-based quantum emulation
 
 
 ## Resources 
