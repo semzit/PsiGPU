@@ -41,7 +41,7 @@ $(a+bi)\ |00> + (c+di)\ |01> + (e+fi)\ |10> + (g+hi)\ |11>$
 Because an iterative approach when applying qauntum gates and launching invidaul gpu kernels every time is expensive this project works by putting them all together through kernel fusion. 
 
 - If gates act on overlapping qubits then you muliply the matrices before applying: $U_{fused} = U_B \ \cdot \ U_A$
-- If gates act on different qubits you can take the tensor product between them: $ U_A \ \otimes \ U_b$
+- If gates act on different qubits you can take the tensor product between them: $U_A \ \otimes \ U_b$
 ## Circuit gates
 
 ## Probability calulation 
