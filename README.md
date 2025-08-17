@@ -16,7 +16,7 @@ The motivation behind this simulator was to learn more about GPU programming as 
 
 - [x]  kernels to enable the use of single qubit gates
 
-- [x] circuit visaulizer
+- [x] circuit visualizer
 
 - [x]  simple ui
 
@@ -45,11 +45,11 @@ Or
 
 $(a+bi)\ |00> + (c+di)\ |01> + (e+fi)\ |10> + (g+hi)\ |11>$  
 ## Kernel Fusion 
-Because an iterative approach when applying qauntum gates and launching invidaul gpu kernels every time is expensive this project works by putting them all together through kernel fusion. 
+Because an iterative approach when applying quantum gates and launching individual gpu kernels every time is expensive this project works by putting them all together through kernel fusion. 
 
 - If gates act on overlapping qubits then you muliply the matrices before applying:$\ U_{fused} = U_B \ \cdot \ U_A$
 - If gates act on different qubits you can take the tensor product between them: $\ U_{fused} = U_A \ \otimes \ U_b$
-## Circuit gates
+## GPU Kernel
 
 ## Probability calulation 
 
