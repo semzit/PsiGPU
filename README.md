@@ -4,8 +4,8 @@ This project is a high-performance, GPU-accelerated quantum circuit simulator. I
 The motivation behind this simulator was to learn more about GPU programming as well as quantum computing. 
 
 ## Table of Contents
-- [Capabilities](https://github.com/semzit/PsiGPU#kernel-fusion)
-- [Build from source](https://github.com/semzit/PsiGPU#build-and-run)
+- [Capabilities](https://github.com/semzit/PsiGPU#capabilities)
+- [Build from source](https://github.com/semzit/PsiGPU#how-to-use)
 -   [State Vector](https://github.com/semzit/PsiGPU#state-vector)
 - [Kernel Fusion](https://github.com/semzit/PsiGPU#kernel-fusion)
 - [Resources](https://github.com/semzit/PsiGPU#resources)
