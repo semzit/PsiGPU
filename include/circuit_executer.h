@@ -14,7 +14,7 @@ class CircuitExecuter{
         void prepareMatrix(Circuit& circuit) ; 
     private: 
         // helper for determining the proper grid and block launch dimensions  
-        dim3 calculateLaunchDims(int total_elements) const; 
+        std::pair<dim3, dim3> calculateLaunchDims(int total_elements) const; 
 };
 
 

@@ -24,7 +24,7 @@ enum class GateType {
 
 struct Gate{
     GateType type;
-    std::vector<int> targets; 
+    int targets[3]; 
     const cuDoubleComplex* matrix; 
 };
 

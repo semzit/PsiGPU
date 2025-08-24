@@ -43,7 +43,7 @@ int main(){
     std::cout << "Welcome to PsiGPU!" << "\n";
 
     while (qubit_count > 20 || qubit_count< 1){
-        std::cout << "Enter number of qubits you want: ";
+        std::cout << "Enter the number of qubits you want: ";
         std::cin >> qubit_count;  
         if (std::cin.fail()) {
             std::cout << "Invalid input. Please enter a number.\n";
@@ -52,12 +52,14 @@ int main(){
         }
     }
 
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    
     CircuitExecuter executer; 
     Circuit circuit = Circuit(qubit_count);  
     QuantumState q_state = QuantumState(qubit_count); 
 
     while (true){
-        std::cout << "\nCommand: ";  // prompt on a new line
+        std::cout << "Command: ";  // prompt on a new line
         std::string input;
         std::getline(std::cin, input);
 
@@ -93,18 +95,23 @@ int main(){
             ss >> target_qubit; 
 
             if (gateNameStr == "hadamard"){
-                circuit.addHadamard(target_qubit); 
-            }else if (gateNameStr == "not"){
-                std::cout << "added not \n"; 
+                circuit.addHadamard(target_qubit);
+                std::cout << "added hadamard \n"; 
+            }else if (gateNameStr == "not"){ 
                 circuit.addPualiX(target_qubit); 
+                std::cout << "added not \n";
             }else if (gateNameStr == "pualiy"){
                 circuit.addPauliY(target_qubit); 
+                std::cout << "added pualiy \n";
             }else if (gateNameStr == "pualiz"){
-                circuit.addPauliZ(target_qubit); 
+                circuit.addPauliZ(target_qubit);
+                std::cout << "added pualiz \n"; 
             }else if (gateNameStr == "sphase"){
-                circuit.addPhaseS(target_qubit); 
+                circuit.addPhaseS(target_qubit);
+                std::cout << "added sphase \n";  
             }else if (gateNameStr == "tphase"){
                 circuit.addPhaseT(target_qubit); 
+                std::cout << "added tphase \n";  
             //}else if (gateNameStr == "cnot"){
             //    ss >> control_qubit; 
             //    circuit.addCNOT(target_qubit, control_qubit); 

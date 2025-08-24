@@ -19,7 +19,7 @@ void Circuit::addHadamard(int target_qubit) {
     Gate hadamard_gate; 
     hadamard_gate.matrix = GateMatrices::Hadamard; 
     hadamard_gate.type = GateType::Hadamard; 
-    hadamard_gate.targets = {target_qubit}; 
+    hadamard_gate.targets[0] = target_qubit; 
 
     gates.push_back(hadamard_gate); 
 }
@@ -32,7 +32,7 @@ void Circuit::addPualiX(int target_qubit) {
     Gate puali_x_gate; 
     puali_x_gate.matrix = GateMatrices::PauliX; 
     puali_x_gate.type = GateType::PauliX; 
-    puali_x_gate.targets = {target_qubit}; 
+    puali_x_gate.targets[0] = target_qubit; 
 
     gates.push_back(puali_x_gate); 
 }
@@ -45,7 +45,7 @@ void Circuit::addPauliY(int target_qubit) {
     Gate puali_y_gate; 
     puali_y_gate.matrix = GateMatrices::PauliY; 
     puali_y_gate.type = GateType::PauliY; 
-    puali_y_gate.targets = {target_qubit}; 
+    puali_y_gate.targets[0] = target_qubit; 
 
     gates.push_back(puali_y_gate); 
 }
@@ -58,7 +58,7 @@ void Circuit::addPauliZ(int target_qubit) {
     Gate puali_z_gate; 
     puali_z_gate.matrix = GateMatrices::PauliZ; 
     puali_z_gate.type = GateType::PauliZ; 
-    puali_z_gate.targets = {target_qubit}; 
+    puali_z_gate.targets[0] = target_qubit; 
 
     gates.push_back(puali_z_gate); 
 }
@@ -71,7 +71,7 @@ void Circuit::addPhaseS(int target_qubit) {
     Gate phase_s_gate; 
     phase_s_gate.matrix = GateMatrices::PhaseS; 
     phase_s_gate.type = GateType::PhaseS; 
-    phase_s_gate.targets = {target_qubit}; 
+    phase_s_gate.targets[0] = target_qubit; 
 
     gates.push_back(phase_s_gate); 
 }
@@ -84,7 +84,7 @@ void Circuit::addPhaseT(int target_qubit) {
     Gate phase_t_gate; 
     phase_t_gate.matrix = GateMatrices::PhaseT; 
     phase_t_gate.type = GateType::PhaseT; 
-    phase_t_gate.targets = {target_qubit}; 
+    phase_t_gate.targets[0] = target_qubit; 
 
     gates.push_back(phase_t_gate); 
 }
@@ -97,7 +97,8 @@ void Circuit::addCNOT(int target_qubit, int control) {
     Gate CNOT_gate; 
     CNOT_gate.matrix = GateMatrices::CNOT; 
     CNOT_gate.type = GateType::CNOT; 
-    CNOT_gate.targets = {target_qubit, control}; 
+    CNOT_gate.targets[0] = target_qubit;
+    CNOT_gate.targets[1] = control;
 
     gates.push_back(CNOT_gate); 
 }
@@ -110,7 +111,8 @@ void Circuit::addSWAP(int target_qubit, int control) {
     Gate SWAP_gate; 
     SWAP_gate.matrix = GateMatrices::SWAP; 
     SWAP_gate.type = GateType::SWAP; 
-    SWAP_gate.targets = {target_qubit, control}; 
+    SWAP_gate.targets[0] = target_qubit;
+    SWAP_gate.targets[1] = control;
 
     gates.push_back(SWAP_gate);  
 }
@@ -123,7 +125,9 @@ void Circuit::addToffoli(int target_qubit, int control, int control_two) {
     Gate Toffoli_gate; 
     Toffoli_gate.matrix = GateMatrices::Toffoli; 
     Toffoli_gate.type = GateType::Toffoli; 
-    Toffoli_gate.targets = {target_qubit, control, control_two}; 
+    Toffoli_gate.targets[0] = target_qubit;
+    Toffoli_gate.targets[1] = control;
+    Toffoli_gate.targets[2] = control_two;
 
     gates.push_back(Toffoli_gate); 
 }
@@ -158,11 +162,14 @@ void Circuit::printCircuitCLI() const {
             case GateType::Hadamard:
             case GateType::PauliX:
             case GateType::PauliY:
-            case GateType::PauliZ: {
+            case GateType::PauliZ:
+            case GateType::PhaseS:
+            case GateType::PhaseT:{
                 int q = gate.targets[0];
                 circuit_grid[q][gate_start_pos + 1] = (gate.type == GateType::Hadamard) ? 'H' : 
-                                                      ((gate.type == GateType::PauliX) ? 'X' : 
-                                                      ((gate.type == GateType::PauliY) ? 'Y' : 'Z'));
+                                                      (gate.type == GateType::PauliX) ? 'X' : 
+                                                      ((gate.type == GateType::PauliY) ? 'Y' : 
+                                                        ((gate.type == GateType::PhaseS) ? 'S' : 'T'));
                 circuit_grid[q][gate_start_pos] = '-';
                 circuit_grid[q][gate_start_pos+2] = '-';
                 break;

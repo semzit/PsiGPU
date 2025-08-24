@@ -10,15 +10,15 @@ The motivation behind this simulator was to learn more about GPU programming as 
 - [Kernel Fusion](https://github.com/semzit/PsiGPU/?tab=readme-ov-file#kernel-fusion)
 - [Resources](https://github.com/semzit/PsiGPU/?tab=readme-ov-file#resources)
 ## Capabilities
-- [ ] enable multi qubit gates
+- [ ] Enable multi qubit gates
 
-- [x] kernel fusion 
+- [x] Kernel fusion 
 
-- [x]  kernels to enable the use of single qubit gates
+- [x]  Kernels to enable the use of single qubit gates
 
-- [x] circuit visualizer
+- [x] Circuit visualizer
 
-- [x]  simple ui
+- [x]  Simple ui
 
 ## How to use 
 ### 1. Build and run
@@ -45,15 +45,13 @@ Or
 
 $(a+bi)\ |00> + (c+di)\ |01> + (e+fi)\ |10> + (g+hi)\ |11>$  
 ## Kernel Fusion 
-Because an iterative approach when applying quantum gates and launching individual gpu kernels every time is expensive this project works by putting them all together through kernel fusion. 
+Because an iterative approach when applying quantum gates and launching individual gpu kernels every time is expensive this project works by iterating throught the gates within the kernel. 
 
-- If gates act on overlapping qubits then you muliply the matrices before applying: $\ U_{fused} = U_B \ \cdot \ U_A$
-- If gates act on different qubits you can take the tensor product between them: $\ U_{fused} = U_A \ \otimes \ U_b$
 ## GPU Kernel
 
 ## Probability calulation 
 
-Because the amplitude is given by the $a+bi$ the maginitude of probabilty for the system to resolve to that basis state can be given by $|a+bi|^2$ 
+Because in qauntum mechanics the probability is the square of the amplitude. We can sqaure $a+bi$ to get the probabilty for the system to resolve to that basis state: $|a+bi|^2$ 
 
 ## Long-Term Vision & Goals
 - Lightweight, fast, GPU powered quantum simulator 
