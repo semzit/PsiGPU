@@ -11,14 +11,6 @@ const int THREADS_PER_BLOCK = 256;
 
 __global__ void applyGate(cuDoubleComplex* stateVec,const Gate* gates, int numQubits, int numGates); 
 
-std::pair<dim3, dim3> CircuitExecuter::calculateLaunchDims(int total_elements) const {
-    int num_blocks = (total_elements + THREADS_PER_BLOCK - 1) / THREADS_PER_BLOCK;
-    dim3 grid(num_blocks);
-    dim3 block(THREADS_PER_BLOCK);
-    return {grid, block};
-}
-
-
 void CircuitExecuter::execute(Circuit& circuit, QuantumState& state) {
     int num_blocks = (state.num_amplitudes + THREADS_PER_BLOCK - 1) / THREADS_PER_BLOCK;
     
@@ -40,7 +32,7 @@ void CircuitExecuter::execute(Circuit& circuit, QuantumState& state) {
 }
 
 __global__ void applyGate(cuDoubleComplex* stateVec,const Gate* gates, int numQubits, int numGates) {
-    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;  
     int dim = 1 << numQubits;  
     if (idx >= dim) return;
 

@@ -94,18 +94,20 @@ int main(){
             ss >> gateNameStr; // Read gate name and target qubit
             ss >> target_qubit; 
 
+     
+
             if (gateNameStr == "hadamard"){
                 circuit.addHadamard(target_qubit);
                 std::cout << "added hadamard \n"; 
             }else if (gateNameStr == "not"){ 
                 circuit.addPualiX(target_qubit); 
                 std::cout << "added not \n";
-            }else if (gateNameStr == "pualiy"){
+            }else if (gateNameStr == "pauliy"){
                 circuit.addPauliY(target_qubit); 
                 std::cout << "added pualiy \n";
-            }else if (gateNameStr == "pualiz"){
+            }else if (gateNameStr == "pauliz"){
                 circuit.addPauliZ(target_qubit);
-                std::cout << "added pualiz \n"; 
+                std::cout << "added pauliz \n"; 
             }else if (gateNameStr == "sphase"){
                 circuit.addPhaseS(target_qubit);
                 std::cout << "added sphase \n";  

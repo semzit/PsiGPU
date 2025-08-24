@@ -48,10 +48,36 @@ $(a+bi)\ |00> + (c+di)\ |01> + (e+fi)\ |10> + (g+hi)\ |11>$
 Because an iterative approach when applying quantum gates and launching individual gpu kernels every time is expensive this project works by iterating throught the gates within the kernel. 
 
 ## GPU Kernel
+ ```cpp
+ __global__ void applyGate(cuDoubleComplex* stateVec, const Gate* gates, int numQubits, int numGates) {
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;  // Thread index 
+    int dim = 1 << numQubits;  // Total amplitude count
+    if (idx >= dim) return;
+
+    // Iterate through gates
+    for (int gate = 0; gate < numGates; gate++){  
+        int i = gates[gate].targets[0];   // Get control qubit
+        int pairIdx = idx ^ (1 << i);  // Index of second amplitude in the pain (the beta to a given alpha)
+
+        if(idx < pairIdx){
+            cuDoubleComplex a = stateVec[idx]; 
+            cuDoubleComplex b = stateVec[pairIdx]; 
+
+            // Multiply and add (matrix-vector multiplication)
+            stateVec[idx] =     cuCadd(cuCmul(gates[gate].matrix[0], a), 
+                                       cuCmul(gates[gate].matrix[1], b)); 
+            
+            stateVec[pairIdx] = cuCadd(cuCmul(gates[gate].matrix[2], a), 
+                                       cuCmul(gates[gate].matrix[3], b)); 
+        }
+        __syncthreads(); // Dont continue until all threads are done
+    }
+}
+ ```
 
 ## Probability calulation 
 
-Because in qauntum mechanics the probability is the square of the amplitude. We can sqaure $a+bi$ to get the probabilty for the system to resolve to that basis state: $|a+bi|^2$ 
+Because in quantum mechanics the probability is the square of the amplitude, We can sqaure $a+bi$ to get the probabilty that the system will resolve to that basis state: $|a+bi|^2$ 
 
 ## Long-Term Vision & Goals
 - Lightweight, fast, GPU powered quantum simulator 
