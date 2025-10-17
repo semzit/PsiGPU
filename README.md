@@ -9,8 +9,11 @@ The motivation behind this simulator was to learn more about GPU programming as 
 -   [State Vector](https://github.com/semzit/PsiGPU/?tab=readme-ov-file#state-vector)
 - [Kernel Fusion](https://github.com/semzit/PsiGPU/?tab=readme-ov-file#kernel-fusion)
 - [Resources](https://github.com/semzit/PsiGPU/?tab=readme-ov-file#resources)
-## Capabilities
+## Capabilities 
+
 - [ ] Enable multi qubit gates
+
+- [ ] Probability visualizer 
 
 - [x] Kernel fusion 
 
