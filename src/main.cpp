@@ -38,7 +38,7 @@ std::string cleanString(std::string& s) {
 }
 
 int main(){
-    int qubit_count = -1;
+    int qubit_count {-1};
 
     std::cout << "Welcome to PsiGPU!" << "\n";
 
@@ -87,45 +87,47 @@ int main(){
             printGates(); 
         }else if (command == "add") { 
             std::string gateNameStr;
-            int target_qubit = -1 ; 
-            int control_qubit = -1; 
-            int second_control_qubit = -1;
+            int target_qubit {-1} ; 
+            int control_qubit {-1}; 
+            int second_control_qubit {-1};
             
             ss >> gateNameStr; // Read gate name and target qubit
             ss >> target_qubit; 
 
-     
-
-            if (gateNameStr == "hadamard"){
+            try{
+                if (gateNameStr == "hadamard"){
                 circuit.addHadamard(target_qubit);
                 std::cout << "added hadamard \n"; 
-            }else if (gateNameStr == "not"){ 
-                circuit.addPualiX(target_qubit); 
-                std::cout << "added not \n";
-            }else if (gateNameStr == "pauliy"){
-                circuit.addPauliY(target_qubit); 
-                std::cout << "added pualiy \n";
-            }else if (gateNameStr == "pauliz"){
-                circuit.addPauliZ(target_qubit);
-                std::cout << "added pauliz \n"; 
-            }else if (gateNameStr == "sphase"){
-                circuit.addPhaseS(target_qubit);
-                std::cout << "added sphase \n";  
-            }else if (gateNameStr == "tphase"){
-                circuit.addPhaseT(target_qubit); 
-                std::cout << "added tphase \n";  
-            //}else if (gateNameStr == "cnot"){
-            //    ss >> control_qubit; 
-            //    circuit.addCNOT(target_qubit, control_qubit); 
-            //}else if (gateNameStr == "swap"){
-            //    ss >> control_qubit; 
-            //    circuit.addSWAP(target_qubit, control_qubit); 
-            //}else if (gateNameStr == "toffoli"){
-            //    ss >> control_qubit; 
-            //    ss >> second_control_qubit; 
-            //    circuit.addToffoli(target_qubit, control_qubit, second_control_qubit); 
-            }else {
-                std::cout<< "invalid command\n";  
+                }else if (gateNameStr == "not"){ 
+                    circuit.addPualiX(target_qubit); 
+                    std::cout << "added not \n";
+                }else if (gateNameStr == "pauliy"){
+                    circuit.addPauliY(target_qubit); 
+                    std::cout << "added pualiy \n";
+                }else if (gateNameStr == "pauliz"){
+                    circuit.addPauliZ(target_qubit);
+                    std::cout << "added pauliz \n"; 
+                }else if (gateNameStr == "sphase"){
+                    circuit.addPhaseS(target_qubit);
+                    std::cout << "added sphase \n";  
+                }else if (gateNameStr == "tphase"){
+                    circuit.addPhaseT(target_qubit); 
+                    std::cout << "added tphase \n";  
+                //}else if (gateNameStr == "cnot"){
+                //    ss >> control_qubit; 
+                //    circuit.addCNOT(target_qubit, control_qubit); 
+                //}else if (gateNameStr == "swap"){
+                //    ss >> control_qubit; 
+                //    circuit.addSWAP(target_qubit, control_qubit); 
+                //}else if (gateNameStr == "toffoli"){
+                //    ss >> control_qubit; 
+                //    ss >> second_control_qubit; 
+                //    circuit.addToffoli(target_qubit, control_qubit, second_control_qubit); 
+                }
+            }
+            catch(const std::exception& e)
+            {
+                std::cerr << e.what() << '\n';
             }
             
         }

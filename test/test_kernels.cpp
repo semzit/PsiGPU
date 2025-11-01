@@ -15,7 +15,7 @@
 }
 
 TEST(NotTest, BasicAssertions) {
-    int qubit_count = 1; 
+    int qubit_count {1}; 
     Circuit circuit = Circuit(qubit_count);  
     QuantumState q_state = QuantumState(qubit_count);     
     CircuitExecuter executer; 
@@ -35,7 +35,7 @@ TEST(NotTest, BasicAssertions) {
 } 
 
 TEST(PauliYTest, BasicAssertions){
-    int qubit_count = 1; 
+    int qubit_count {1}; 
     Circuit circuit = Circuit(qubit_count);  
     QuantumState q_state = QuantumState(qubit_count);     
     CircuitExecuter executer; 
