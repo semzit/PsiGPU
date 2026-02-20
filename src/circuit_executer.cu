@@ -11,6 +11,9 @@ const int THREADS_PER_BLOCK = 256;
 
 __global__ void applyGate(cuDoubleComplex* stateVec,const Gate* gates, int numQubits, int numGates); 
 
+/**
+ * Execute the circuit
+ */
 void CircuitExecuter::execute(Circuit& circuit, QuantumState& state) {
     int num_blocks = (state.num_amplitudes + THREADS_PER_BLOCK - 1) / THREADS_PER_BLOCK;
     
@@ -31,6 +34,10 @@ void CircuitExecuter::execute(Circuit& circuit, QuantumState& state) {
     }
 }
 
+/**
+ * Cuda Kernal for applying the gate 
+ * iterates through the gates
+ */
 __global__ void applyGate(cuDoubleComplex* stateVec,const Gate* gates, int numQubits, int numGates) {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;  
     int dim = 1 << numQubits;  
